@@ -2,7 +2,6 @@ package com.bendrisstarek.rabobankassessment.modules.main
 
 import android.content.Context
 import android.graphics.Typeface
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,7 +71,6 @@ class CsvContentAdapter(
                  * I made the title looks bold, the font Comfortaregular, and the size is 5ssp
                  */
                 val content = lst[i]
-                Log.e("comparaisonTag","0# : "+lst.size)
 
                 val txt = TextView(context)
                 val htmlContent = HtmlCompat.fromHtml("<b>" + topList[i] + " :</b>   " + content, HtmlCompat.FROM_HTML_MODE_LEGACY)
@@ -96,7 +94,7 @@ class CsvContentAdapter(
             /**
              * when the item is clicked, we send the Item so we may use it
              */
-            binding!!.cardView.setOnClickListener { v: View? ->
+            binding!!.cardView.setOnClickListener {
                 if (mListener != null) {
                     val position1 = adapterPosition
                     if (position1 != RecyclerView.NO_POSITION) {
@@ -124,7 +122,6 @@ class CsvContentAdapter(
             val newContent = newList[newItemPosition]!!
             val s1 = oldContent.list.toString()
             val s2 = newContent.list.toString()
-            Log.e("comparaisonTag","1# :"+s1+"   "+s2)
             return s1 == s2
         }
     }

@@ -118,7 +118,7 @@ class MainActivity : BaseActivity(), CsvContentAdapter.OnItemClickListener,
     /**
      * the implementation of the adapter's item click interface
      */
-    override fun onContentItemClick(standard: StandardModel?) {
+    override fun onContentItemClick(item: StandardModel?) {
         Toast.makeText(applicationContext,resources.getString(R.string.item_clicked),Toast.LENGTH_SHORT).show()
     }
 
