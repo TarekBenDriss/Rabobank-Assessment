@@ -60,6 +60,8 @@ class CsvContentAdapter(
         private val context: Context = view.context
         private val binding: ItemCsvContentBinding? = DataBindingUtil.bind(view)
         fun bind(item: StandardModel) {
+            binding?.layout?.removeAllViews()
+            //binding?.layout?.removeViewAt(0)
             val lst = item.list
             /**
              * this loop will parse the list in the item, and fill the values
@@ -102,6 +104,7 @@ class CsvContentAdapter(
                     }
                 }
             }
+
             binding.executePendingBindings()
         }
 

@@ -1,13 +1,12 @@
 package com.bendrisstarek.rabobankassessment.modules.main
 
-import android.annotation.SuppressLint
 import android.os.AsyncTask
 import android.os.Bundle
-import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
+import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -16,6 +15,7 @@ import com.airbnb.lottie.LottieAnimationView
 import com.bendrisstarek.rabobankassessment.App
 import com.bendrisstarek.rabobankassessment.R
 import com.bendrisstarek.rabobankassessment.base.BaseActivity
+import com.bendrisstarek.rabobankassessment.databinding.ActivityMainBinding
 import com.bendrisstarek.rabobankassessment.datasource.local.entity.Payment
 import com.bendrisstarek.rabobankassessment.util.StringUtils
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -25,26 +25,28 @@ import io.reactivex.schedulers.Schedulers
 import java.io.BufferedReader
 import java.io.InputStream
 import java.io.InputStreamReader
-import java.math.BigDecimal
-import java.math.RoundingMode
 import java.nio.charset.Charset
-import java.text.SimpleDateFormat
 
 
-class MainActivity : BaseActivity(), CsvContentAdapter.OnItemClickListener{
+class MainActivity : BaseActivity(), CsvContentAdapter.OnItemClickListener,
+    SearchView.OnQueryTextListener{
 
     private lateinit var csvContentAdapter: CsvContentAdapter
     private lateinit var csvContentRecycler: RecyclerView
     private lateinit var emptyAnimationView: LottieAnimationView
     private lateinit var errorMessage: TextView
     private lateinit var swipeContainer: SwipeRefreshLayout
+    private lateinit var mBinding: ActivityMainBinding
+    private lateinit var searchBar: SearchView
+    private var mModels: java.util.ArrayList<StandardModel>? = null
 
     private var mDisposable: CompositeDisposable? = null
     private var mPaymentViewModel: PaymentsViewModel? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
 
         initVars()
         ReadCsvAsyncTask(this).execute()
@@ -56,11 +58,17 @@ class MainActivity : BaseActivity(), CsvContentAdapter.OnItemClickListener{
      */
     private fun initVars()
     {
-        csvContentRecycler = findViewById(R.id.csvContentRecycler)
-        emptyAnimationView = findViewById(R.id.emptyAnimationView)
-        errorMessage = findViewById(R.id.errorMessage)
-        swipeContainer = findViewById(R.id.swipeContainer)
+        csvContentRecycler = mBinding.csvContentRecycler
+        emptyAnimationView = mBinding.emptyAnimationView
+        errorMessage = mBinding.errorMessage
+        swipeContainer = mBinding.swipeContainer
+        searchBar = mBinding.searchBar
         swipeContainer.setOnRefreshListener {ReadCsvAsyncTask(this).execute()}
+        mModels = java.util.ArrayList()
+        searchBar.setOnQueryTextListener(this)
+        searchBar.setOnClickListener { searchBar.isIconified = false
+            searchBar.requestFocus()
+        }
     }
 
     /**
@@ -97,10 +105,12 @@ class MainActivity : BaseActivity(), CsvContentAdapter.OnItemClickListener{
                 csvContentRecycler.layoutManager = layoutManager
                 csvContentRecycler.setHasFixedSize(true)
                 csvContentRecycler.setItemViewCacheSize(listModel.size+1)
+                //csvContentRecycler.setItemViewCacheSize(99999999)
 
                 csvContentRecycler.adapter = csvContentAdapter
 
                 csvContentAdapter.change(listModel)
+                mModels = listModel
             }
         }
     }
@@ -138,6 +148,48 @@ class MainActivity : BaseActivity(), CsvContentAdapter.OnItemClickListener{
                         App.hideLoader()
                     }
                 })?.let { mDisposable?.add(it) }
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+            val filteredModelList: java.util.ArrayList<StandardModel> = filter(mModels, newText!!)!!
+            csvContentAdapter.clear()
+            csvContentAdapter.change(filteredModelList)
+            csvContentAdapter.notifyDataSetChanged()
+
+        return false
+    }
+
+    private fun filter(models: java.util.ArrayList<StandardModel>?, query: String): java.util.ArrayList<StandardModel>? {
+        val lowerCaseQuery = query.toLowerCase()
+        val filteredModelList: java.util.ArrayList<StandardModel> =
+            java.util.ArrayList()
+        for (model in models!!) {
+            var bool = false
+            for(m:String in model.list) {
+
+                val text: String = m.toLowerCase()
+                if (text.contains(lowerCaseQuery)) {
+                    filteredModelList.add(model)
+                    bool = true
+                }
+                if(bool)
+                    break
+            }
+        }
+        return filteredModelList
+    }
+
+    override fun onBackPressed() {
+        if (!searchBar.isIconified) {
+            searchBar.isIconified = true
+            searchBar.clearFocus()
+            //searchBar.setQuery("", false)
+        } else {
+            super.onBackPressed()
+        }
     }
 }
 

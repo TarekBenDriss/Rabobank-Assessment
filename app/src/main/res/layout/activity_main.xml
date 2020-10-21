@@ -1,7 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".modules.main.MainActivity">
@@ -46,11 +49,13 @@
         android:background="@drawable/search_view_bg"
         app:layout_constraintBottom_toBottomOf="@id/topBarSearch"
         android:layout_marginBottom="@dimen/_24sdp"
-        android:elevation="2dp"
+        android:elevation="20dp"
         app:layout_constraintVertical_bias="0.75"
         app:layout_constraintCircleRadius="20dp"
-        android:queryHint="@string/search_book_or_author"
-        />
+        android:queryHint="@string/search_any_word"
+        app:iconifiedByDefault="false"
+
+         />
 
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -112,3 +117,4 @@
         android:visibility="invisible"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
