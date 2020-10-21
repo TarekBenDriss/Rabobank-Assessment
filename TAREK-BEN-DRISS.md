@@ -8,8 +8,8 @@ This Android app is developed for the 'RaboBank' recruiting process.
 The architecture used for the development of this application is "MVVM", Model, View, ViewModel. It is not used in the "read CSV file" process, but it can be seen in the getPayments method in the MainActivity. \
 The choice for the MVVM architecture is due to its automatic propagation of changes, inside the state of ViewModel to the view. This allows us to quickly and instantly modify the data received when changing. \
 The app includes four activities and three fragments:
-- Activity of the splashScreen, the splash screen includes the company's logo.
-- The main activity which parse the CSV file and shows it's content.
+- Activity of the splashScreen which contains the company's logo.
+- The main activity which parses the CSV file and shows it's content.
 
 
 

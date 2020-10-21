@@ -32,6 +32,7 @@ class CsvFileTest {
 
     /**
      * this function tests if the file exists or not
+     * test files can be added to the assets folder
      */
     @Test
     @Throws(Exception::class)

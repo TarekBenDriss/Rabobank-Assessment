@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="100dp"
         android:elevation="500dp"
-        android:src="@drawable/rb"
+        android:src="@drawable/logo"
         android:transitionName="logoTransitionImg"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
