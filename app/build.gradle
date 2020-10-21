@@ -1,0 +1,159 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    //id 'de.mannodermaus.android-junit5'
+}
+
+android {
+    compileSdkVersion 29
+    buildToolsVersion "29.0.3"
+
+    defaultConfig {
+        applicationId "com.bendrisstarek.rabobankassessment"
+        minSdkVersion 21
+        targetSdkVersion 29
+        versionCode 1
+        versionName "1.0"
+        multiDexEnabled true
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+
+    dataBinding {
+        enabled = true
+    }
+}
+
+
+ext {
+    support = "27.1.0"
+    lifecycle = "2.2.0"
+    room = "2.2.5"
+    constraint = "2.0.1"
+    multidex = "2.0.1"
+    glide = "4.11.0"
+    retrofit = "2.9.0"
+    jackson = "2.11.2"
+    rxjava = "2.1.8"
+    rxandroid = "2.0.1"
+    rxretrofit = "1.0.0"
+    dagger = "2.27"
+    javax = "1.0"
+    okhttp = "4.4.0"
+    okio = "2.4.3"
+    material = "1.2.1"
+    lottie = "3.4.1"
+    recyclerView = "1.1.0"
+    swipeRefresh = "1.1.0"
+    sdp = "1.0.6"
+    gson = "2.8.6"
+    junit = "1.1.2"
+    espresso = "3.3.0"
+    appcompat = "1.2.0"
+    espresso_core_version = "3.0.2"
+    espresso_contrib_version = "2.0"
+    android_test_version = "1.0.2"
+}
+
+
+dependencies {
+
+
+    implementation fileTree(dir: "libs", include: ["*.jar"])
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    implementation 'androidx.core:core-ktx:1.3.2'
+    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.1'
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
+    implementation 'androidx.annotation:annotation:1.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.2.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.2'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
+    implementation "com.android.support:multidex:${multidex}"
+
+
+    /* Lifecycle */
+    implementation "android.arch.lifecycle:extensions:${lifecycle}"
+    annotationProcessor "android.arch.lifecycle:compiler:${lifecycle}"
+    implementation "android.arch.lifecycle:viewmodel:${lifecycle}"
+    /* Room */
+    implementation "android.arch.persistence.room:runtime:${room}"
+    annotationProcessor "android.arch.persistence.room:compiler:${room}"
+    /* Reactivestreams */
+    implementation "android.arch.persistence.room:rxjava2:${room}"
+    implementation "android.arch.lifecycle:reactivestreams:${lifecycle}"
+    /* Glide */
+    implementation "com.github.bumptech.glide:glide:${glide}"
+    annotationProcessor "com.github.bumptech.glide:compiler:${glide}"
+    implementation "com.github.bumptech.glide:okhttp3-integration:${glide}"
+    /* Retrofit */
+    implementation "com.squareup.retrofit2:retrofit:${retrofit}"
+    implementation "com.squareup.retrofit2:converter-jackson:${retrofit}"
+    /* Jackson */
+    implementation "com.fasterxml.jackson.core:jackson-core:${jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-annotations:${jackson}"
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jackson}"
+    implementation "com.google.code.gson:gson:${gson}"
+    /* Reactivex*/
+    implementation "io.reactivex.rxjava2:rxjava:${rxjava}"
+    implementation "io.reactivex.rxjava2:rxandroid:${rxandroid}"
+    implementation "com.jakewharton.retrofit:retrofit2-rxjava2-adapter:${rxretrofit}"
+    /* Dagger */
+    implementation "com.google.dagger:dagger:${dagger}"
+    annotationProcessor "com.google.dagger:dagger-compiler:${dagger}"
+    compileOnly "javax.annotation:jsr250-api:${javax}"
+    /* OKhttp3 */
+    implementation "com.squareup.okhttp3:okhttp:${okhttp}"
+    implementation "com.squareup.okhttp3:logging-interceptor:${okhttp}"
+    implementation "com.squareup.okio:okio:${okio}"
+
+
+
+    /* RecyclerView */
+    implementation "androidx.recyclerview:recyclerview:${recyclerView}"
+    /* Lottie, to load GIFs */
+    implementation "com.airbnb.android:lottie:${lottie}"
+    /* Swipe to refresh */
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:${swipeRefresh}"
+    /* sdp & ssp */
+    implementation "com.intuit.sdp:sdp-android:${sdp}"
+    implementation "com.intuit.ssp:ssp-android:${sdp}"
+    /* Material */
+    implementation "com.google.android.material:material:${material}"
+
+
+    /* Swipe to refresh */
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:${swipeRefresh}"
+
+    androidTestImplementation ("com.android.support.test.espresso:espresso-core:$espresso_core_version", {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    androidTestImplementation ("com.android.support.test.espresso:espresso-contrib:$espresso_contrib_version") {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude module: 'recyclerview-v7'
+    }
+
+
+    androidTestImplementation "com.android.support.test:rules:$android_test_version"
+    androidTestImplementation "com.android.support.test:runner:$android_test_version"
+
+}
